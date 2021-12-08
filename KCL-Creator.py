@@ -246,14 +246,24 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             row.prop(KCLOp, "roadvar") # Road Variant
             
             if KCLOp.roadvar == 'ROAD1':
-                flag = "Test"
-                ob = bpy.context.active_object
+                flag = "_00_000"
                 row = layout.row()
-                row.operator("apply.apply_op")
+                row.operator("apply.apply_op", flag)
+
+            if KCLOp.roadvar == 'ROAD2':
+                flag = "_00_001"
+                row = layout.row()
+                row.operator("apply.apply_op", flag)
+
+            if KCLOp.roadvar == 'ROAD3':
+                flag = "_00_002"
+                row = layout.row()
+                row.operator("apply.apply_op", flag)
         
         if KCLOp.enum == 'OP2':
             row = layout.row()
             row.prop(KCLOp, "sliproad1var") # Slippery Road 1 Variant
+            
 
         if KCLOp.enum == 'OP3':
             row = layout.row()
