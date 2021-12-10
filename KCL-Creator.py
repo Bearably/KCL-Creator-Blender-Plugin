@@ -3,8 +3,13 @@ from bpy.types import Operator
 
 ob = bpy.context.active_object
 flag = "mat"
+var = 0
 
-class DropDown(bpy.types.PropertyGroup): # Defines the list of Flags and Variants
+class DropDown(bpy.types.PropertyGroup):
+    
+    val : bpy.props.FloatProperty(name= "FBX Scale", min=0, max=1000)
+    
+     # Defines the list of Flags and Variants
     enum : bpy.props.EnumProperty(
         name= "Flag",
         description= "",
@@ -215,7 +220,12 @@ class APPLY_OT_apply_op(Operator):
 
     def execute(self, context):
         ob = context.active_object
-        self.flagmat(flag,ob)
+        self.flagmat(flag, ob)
+        return {'FINISHED'}
+    
+    def invoke(self, context, event):
+        ob = context.active_object
+        self.flagmat(flag, ob)
         return {'FINISHED'}
 
 class EXPORT_OT_flag_op(Operator):
@@ -240,15 +250,54 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         KCLOp = scene.my_tool
         row = layout.row()
         row.prop(KCLOp, "enum")
+        global flag
+        global var
         
         if KCLOp.enum == 'OP1':
             row = layout.row()
-            row.prop(KCLOp, "roadvar") # Road Variant
+            row.prop(KCLOp, "roadvar")
+            flag = "_00_" + str(var)     # Road Variant
             
             if KCLOp.roadvar == 'ROAD1':
-                flag = "Test"
-                ob = bpy.context.active_object
                 row = layout.row()
+                var = 000
+                print(flag)
+                row.operator("apply.apply_op")
+                
+                    
+            if KCLOp.roadvar == 'ROAD2':
+                row = layout.row()
+                flag = "_00_001"
+                row.operator("apply.apply_op")
+                
+            if KCLOp.roadvar == 'ROAD3':
+                row = layout.row()
+                flag = "_00_002"
+                row.operator("apply.apply_op")
+                
+            if KCLOp.roadvar == 'ROAD4':
+                row = layout.row()
+                flag = "_00_003"
+                row.operator("apply.apply_op")
+
+            if KCLOp.roadvar == 'ROAD5':
+                row = layout.row()
+                flag = "_00_004"
+                row.operator("apply.apply_op")
+                
+            if KCLOp.roadvar == 'ROAD6':
+                row = layout.row()
+                flag = "_00_005"
+                row.operator("apply.apply_op")
+                
+            if KCLOp.roadvar == 'ROAD7':
+                row = layout.row()
+                flag = "_00_006"
+                row.operator("apply.apply_op")
+                
+            if KCLOp.roadvar == 'ROAD8':
+                row = layout.row()
+                flag = "_00_007"
                 row.operator("apply.apply_op")
         
         if KCLOp.enum == 'OP2':
@@ -302,6 +351,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         row = layout.row()
         row.label(text='Export As:',icon='BLENDER')
         row = layout.row()
+        row.prop(KCLOp, "val")
         row.operator("export.flag_op")
         row.operator("export.kcl_op")
 
