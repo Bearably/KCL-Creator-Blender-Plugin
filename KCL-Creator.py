@@ -1,15 +1,18 @@
 import bpy
+import random
 from bpy.types import Operator
-
+        
 ob = bpy.context.active_object
 flag = "mat"
-var = 0
+effect = 0
+variant = 0
 
+        
 class DropDown(bpy.types.PropertyGroup):
     
-    val : bpy.props.FloatProperty(name= "FBX Scale", min=0, max=1000)
+    ScaleValue : bpy.props.FloatProperty(name= "FBX Scale", min=0, max=1000)
     
-     # Defines the list of Flags and Variants
+     # Defines the list of Flags and variants
     enum : bpy.props.EnumProperty(
         name= "Flag",
         description= "",
@@ -31,12 +34,21 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OP16', "Half-Pipe Ramp", ""),
                 ('OP17', "Gravity Road", ""),
                 ('OP18', "Sound Trigger", ""),
-                ('OP19', "Effect Trigger", ""),
+                ('OP19', "effectect Trigger", ""),
                 ('OP20', "Half-Pipe Invisible Wall", "")
             ]
         )
-    # Road Variant Enumerator
-    roadvar : bpy.props.EnumProperty( 
+        
+    trickable : bpy.props.EnumProperty(
+        name= "Trickable?",
+        description= "",
+        items= [('NOTTRICKABLE', "No", ""),
+                ('TRICKABLE', "Yes", "")
+            ]
+        )
+        
+    # Road variant Enumerator
+    roadvariant : bpy.props.EnumProperty( 
         name= "Variant",
         description= "",
         items= [('ROAD1', "Asphalt", ""),
@@ -49,8 +61,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('ROAD8', "Normal, but the sound cuts off", "")
             ]
         )
-    # Slippery Road 1 Variant Enumerator
-    sliproad1var : bpy.props.EnumProperty(
+    # Slippery Road 1 variant Enumerator
+    sliproad1variant : bpy.props.EnumProperty(
         name= "Variant",
         description= "Slippery, does not slow you down.",
         items= [('SLIPROAD1OP1', "White Sand", ""),
@@ -63,8 +75,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('SLIPROAD1OP8', "Dirt, No GFX", "")
             ]
         )
-    # Weak Off-Road Variant Enumerator
-    weakoffroadvar : bpy.props.EnumProperty(
+    # Weak Off-Road variant Enumerator
+    weakoffroadvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('WEAKOFFROADOP1', "White Sand", ""),
@@ -77,8 +89,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('WEAKOFFROADOP8', "Dirt, No GFX", "")
             ]
         )
-    # Off-Road Variant Enumerator
-    offroadvar : bpy.props.EnumProperty(
+    # Off-Road variant Enumerator
+    offroadvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('OFFROADOP1', "Sand", ""),
@@ -91,8 +103,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OFFROADOP8', "Carpet", "")
             ]
         )
-    # Heavy Off-Road Variant Enumerator
-    heavyoffroadvar : bpy.props.EnumProperty(
+    # Heavy Off-Road variant Enumerator
+    heavyoffroadvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('HEAVYOFFROADOP1', "Sand", ""),
@@ -105,8 +117,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('HEAVYOFFROADOP8', "Dirt, No GFX", "")
             ]
         )
-    # Slippery Road 2 Variant Enumerator
-    sliproad2var : bpy.props.EnumProperty(
+    # Slippery Road 2 variant Enumerator
+    sliproad2variant : bpy.props.EnumProperty(
         name= "Variant",
         description= "Slippery and slightly slows you down.",
         items= [('SLIPROAD2OP1', "Ice", ""),
@@ -115,8 +127,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('SLIPROAD2OP4', "Normal Road, Different sound", "")
             ]
         )
-    # Boost Panel Variant Enumerator
-    boostpanvar : bpy.props.EnumProperty(
+    # Boost Panel variant Enumerator
+    boostpanvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('BOOSTPANOP1', "Default", ""),
@@ -124,17 +136,17 @@ class DropDown(bpy.types.PropertyGroup):
                 ('BOOSTPANOP3', "Unknown. Unused.", "")
             ]
         )
-    # Boost Ramp Variant Enumerator
-    boostrampvar : bpy.props.EnumProperty(
+    # Boost Ramp variant Enumerator
+    boostrampvariant : bpy.props.EnumProperty(
         name= "Variant",
-        description= "Do not use collision effect 'Trickable' with this flag",
+        description= "Do not use collision effectect 'Trickable' with this flag",
         items= [('BOOSTRAMPOP1', "2 Flips", ""),
                 ('BOOSTRAMPOP2', "1 Flip", ""),
                 ('BOOSTRAMPOP3', "No flips", "")
             ]
         )
-    # Jump Pad Variant Enumerator
-    jumppadvar : bpy.props.EnumProperty(
+    # Jump Pad variant Enumerator
+    jumppadvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "Higher stages mean approximately longer air time and more distance.",
         items= [('JUMPPADOP1', "Stage 2, used in GBA Bowser Castle 3", ""),
@@ -147,8 +159,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('JUMPPADOP6', "Stage 4, unused.", "")
             ]
         )
-    # Solid Fall Variant Enumerator
-    solidfallvar : bpy.props.EnumProperty(
+    # Solid Fall variant Enumerator
+    solidfallvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('SOLIDFALLOP1', "Sand", ""),
@@ -161,8 +173,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('SOLIDFALLOP8', "Unknown.", "")
             ]
         )
-    # Moving Road Variant Enumerator
-    movingroadvar : bpy.props.EnumProperty(
+    # Moving Road variant Enumerator
+    movingroadvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('MOVINGROADOP1', "Follows a route, pulling the player down", ""),
@@ -175,8 +187,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('MOVINGROADOP8', "Moving road, unused..", "")
             ]
         )
-    # Wall Variant Enumerator
-    wallvar : bpy.props.EnumProperty(
+    # Wall variant Enumerator
+    wallvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('WALLOP1', "Normal", ""),
@@ -189,8 +201,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('WALLOP8', "Rubber", "")
             ]
         )
-    # Invisible Wall Variant Enumerator
-    invwallvar : bpy.props.EnumProperty(
+    # Invisible Wall variant Enumerator
+    invwallvariant : bpy.props.EnumProperty(
         name= "Variant",
         description= "",
         items= [('INVWALLOP1', "Default", ""),
@@ -243,7 +255,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
     bl_idname = "KCL_PT_MainPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-        
+    
     def draw(self, context):
         layout = self.layout
         scene = context.scene
@@ -251,107 +263,124 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         row = layout.row()
         row.prop(KCLOp, "enum")
         global flag
-        global var
+        global variant
+        global effect
+        variant = 100
+        effect = 1000
+        flag = "_" + str(variant)[1:3] + "_"
+        
+        def ChangeEffect(effect, effectnum):
+            effect = effect + effectnum
+            return effect              
         
         if KCLOp.enum == 'OP1':
             row = layout.row()
-            row.prop(KCLOp, "roadvar")
-            flag = "_00_" + str(var)     # Road Variant
+            row.prop(KCLOp, "roadvariant")  # Road variant
             
-            if KCLOp.roadvar == 'ROAD1':
+            if KCLOp.roadvariant == 'ROAD1':
                 row = layout.row()
-                var = 000
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(effect)[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                              
+            if KCLOp.roadvariant == 'ROAD2':
+                row = layout.row()
+                flag = flag + str(ChangeEffect(effect, 1))[1:4]
                 print(flag)
                 row.operator("apply.apply_op")
                 
-                    
-            if KCLOp.roadvar == 'ROAD2':
-                row = layout.row()
-                flag = "_00_001"
-                row.operator("apply.apply_op")
-                
-            if KCLOp.roadvar == 'ROAD3':
+            if KCLOp.roadvariant == 'ROAD3':
                 row = layout.row()
                 flag = "_00_002"
                 row.operator("apply.apply_op")
                 
-            if KCLOp.roadvar == 'ROAD4':
+            if KCLOp.roadvariant == 'ROAD4':
                 row = layout.row()
                 flag = "_00_003"
                 row.operator("apply.apply_op")
 
-            if KCLOp.roadvar == 'ROAD5':
+            if KCLOp.roadvariant == 'ROAD5':
                 row = layout.row()
                 flag = "_00_004"
                 row.operator("apply.apply_op")
                 
-            if KCLOp.roadvar == 'ROAD6':
+            if KCLOp.roadvariant == 'ROAD6':
                 row = layout.row()
                 flag = "_00_005"
                 row.operator("apply.apply_op")
                 
-            if KCLOp.roadvar == 'ROAD7':
+            if KCLOp.roadvariant == 'ROAD7':
                 row = layout.row()
                 flag = "_00_006"
                 row.operator("apply.apply_op")
                 
-            if KCLOp.roadvar == 'ROAD8':
+            if KCLOp.roadvariant == 'ROAD8':
                 row = layout.row()
                 flag = "_00_007"
                 row.operator("apply.apply_op")
         
         if KCLOp.enum == 'OP2':
             row = layout.row()
-            row.prop(KCLOp, "sliproad1var") # Slippery Road 1 Variant
+            row.prop(KCLOp, "sliproad1variant") # Slippery Road 1 variant
 
         if KCLOp.enum == 'OP3':
             row = layout.row()
-            row.prop(KCLOp, "weakoffroadvar") # Weak Off-road Variant
+            row.prop(KCLOp, "weakoffroadvariant") # Weak Off-road variant
 
         if KCLOp.enum == 'OP4':
             row = layout.row()
-            row.prop(KCLOp, "offroadvar") # Off-road Variant
+            row.prop(KCLOp, "offroadvariant") # Off-road variant
 
         if KCLOp.enum == 'OP5':
             row = layout.row()
-            row.prop(KCLOp, "heavyoffroadvar") # Heavy off-road Variant
+            row.prop(KCLOp, "heavyoffroadvariant") # Heavy off-road variant
 
         if KCLOp.enum == 'OP6':
             row = layout.row()
-            row.prop(KCLOp, "sliproad2var") # Slippery road 2 Variant
+            row.prop(KCLOp, "sliproad2variant") # Slippery road 2 variant
 
         if KCLOp.enum == 'OP7':
             row = layout.row()
-            row.prop(KCLOp, "boostpanvar") # Boost panel Variant
+            row.prop(KCLOp, "boostpanvariant") # Boost panel variant
 
         if KCLOp.enum == 'OP8':
             row = layout.row()
-            row.prop(KCLOp, "boostrampvar") # Boost ramp Variant
+            row.prop(KCLOp, "boostrampvariant") # Boost ramp variant
 
         if KCLOp.enum == 'OP9':
             row = layout.row()
-            row.prop(KCLOp, "jumppadvar") # Jump Pad Variant
+            row.prop(KCLOp, "jumppadvariant") # Jump Pad variant
 
         if KCLOp.enum == 'OP10':
             row = layout.row()
-            row.prop(KCLOp, "solidfallvar") # Solid Fall Variant
+            row.prop(KCLOp, "solidfallvariant") # Solid Fall variant
 
         if KCLOp.enum == 'OP11':
             row = layout.row()
-            row.prop(KCLOp, "movingroadvar") # Moving Road Variant
+            row.prop(KCLOp, "movingroadvariant") # Moving Road variant
 
         if KCLOp.enum == 'OP12':
             row = layout.row()
-            row.prop(KCLOp, "wallvar") # Wall Variant
+            row.prop(KCLOp, "wallvariant") # Wall variant
 
         if KCLOp.enum == 'OP13':
             row = layout.row()
-            row.prop(KCLOp, "invwallvar") # Invisible Wall Variant
+            row.prop(KCLOp, "invwallvariant") # Invisible Wall variant
 
         row = layout.row()
         row.label(text='Export As:',icon='BLENDER')
         row = layout.row()
-        row.prop(KCLOp, "val")
+        row.prop(KCLOp, "ScaleValue")
         row.operator("export.flag_op")
         row.operator("export.kcl_op")
 
