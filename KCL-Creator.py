@@ -293,13 +293,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(effect)[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                               
             if KCLOp.roadvariant == 'ROAD2':
@@ -309,13 +309,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
       
             if KCLOp.roadvariant == 'ROAD3':
@@ -325,13 +325,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD4':
@@ -341,13 +341,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.roadvariant == 'ROAD5':
@@ -357,13 +357,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD6':
@@ -373,13 +373,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD7':
@@ -389,13 +389,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD8':
@@ -405,13 +405,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP2':
@@ -428,13 +428,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(effect)[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
             
             if KCLOp.sliproad1variant == "SLIPROAD1OP2":
@@ -444,13 +444,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.sliproad1variant == "SLIPROAD1OP3":
@@ -460,13 +460,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.sliproad1variant == 'SLIPROAD1OP4':
@@ -476,13 +476,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.sliproad1variant == 'SLIPROAD1OP5':
@@ -492,13 +492,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.sliproad1variant == 'SLIPROAD1OP6':
@@ -508,13 +508,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.sliproad1variant == 'SLIPROAD1OP7':
@@ -524,13 +524,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.sliproad1variant == 'SLIPROAD1OP8':
@@ -540,13 +540,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP3':
@@ -563,13 +563,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(effect)[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.weakoffroadvariant == "WEAKOFFROADOP2":
@@ -579,13 +579,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.weakoffroadvariant == "WEAKOFFROADOP3":
@@ -595,13 +595,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP4':
@@ -611,13 +611,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP5':
@@ -627,13 +627,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP6':
@@ -643,13 +643,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP7':
@@ -659,13 +659,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP8':
@@ -675,13 +675,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP4':
@@ -698,13 +698,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(effect)[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.offroadvariant == "OFFROADOP2":
@@ -714,13 +714,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.offroadvariant == "OFFROADOP3":
@@ -730,13 +730,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.offroadvariant == 'OFFROADOP4':
@@ -746,13 +746,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.offroadvariant == 'OFFROADOP5':
@@ -762,13 +762,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.offroadvariant == 'OFFROADOP6':
@@ -778,13 +778,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.offroadvariant == 'OFFROADOP7':
@@ -794,13 +794,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.offroadvariant == 'OFFROADOP8':
@@ -810,13 +810,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP5':
@@ -833,13 +833,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(effect)[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.heavyoffroadvariant == "HEAVYOFFROADOP2":
@@ -849,13 +849,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.heavyoffroadvariant == "HEAVYOFFROADOP3":
@@ -865,13 +865,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP4':
@@ -881,13 +881,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP5':
@@ -897,13 +897,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP6':
@@ -913,13 +913,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP7':
@@ -929,13 +929,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP8':
@@ -945,13 +945,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP6':
@@ -968,13 +968,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(effect)[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
             
             if KCLOp.sliproad2variant == "SLIPROAD2OP2":
@@ -984,13 +984,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.sliproad2variant == "SLIPROAD2OP3":
@@ -1000,13 +1000,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
               if KCLOp.trickable == 'NOTTRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
                 
               if KCLOp.trickable == 'TRICKABLE':
                   row = layout.row()
                   flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                  print(flag)
+                  #print(flag)
                   row.operator("apply.apply_op")
 
             if KCLOp.sliproad2variant == 'SLIPROAD2OP4':
@@ -1016,13 +1016,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP7':
@@ -1039,13 +1039,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(effect)[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                               
             if KCLOp.boostpanvariant == 'BOOSTPANOP2':
@@ -1055,13 +1055,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
       
             if KCLOp.roadvariant == 'BOOSTPANOP3':
@@ -1071,13 +1071,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP8':
@@ -1090,19 +1090,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             if KCLOp.boostrampvariant == "BOOSTRAMPOP1":
               row = layout.row()
               flag = flag + str(effect)[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP2":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 1))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP3":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 2))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP9':
@@ -1115,49 +1115,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             if KCLOp.jumppadvariant == "JUMPPADOP1":
               row = layout.row()
               flag = flag + str(effect)[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP2":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 1))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP3":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 2))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP4":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 3))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP5":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 4))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP6":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 5))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP7":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 6))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP8":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 7))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP10':
@@ -1170,49 +1170,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             if KCLOp.solidfallvariant == "SOLIDFALLOP1":
               row = layout.row()
               flag = flag + str(effect)[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP2":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 1))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP3":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 2))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP4":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 3))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP5":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 4))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP6":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 5))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP7":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 6))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP8":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 7))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP11':
@@ -1229,13 +1229,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(effect)[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                               
             if KCLOp.movingroadvariant == 'MOVINGROADOP2':
@@ -1245,13 +1245,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 101))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
       
             if KCLOp.movingroadvariant == 'MOVINGROADOP3':
@@ -1261,13 +1261,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 2))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 102))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.movingroadvariant == 'MOVINGROADOP4':
@@ -1277,13 +1277,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 3))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 103))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
             if KCLOp.movingroadvariant == 'MOVINGROADOP5':
@@ -1293,13 +1293,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 4))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 104))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.movingroadvariant == 'MOVINGROADOP6':
@@ -1309,13 +1309,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 5))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 105))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.movingroadvariant == 'MOVINGROADOP7':
@@ -1325,13 +1325,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 6))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 106))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
             if KCLOp.movingroadvariant == 'MOVINGROADOP8':
@@ -1341,13 +1341,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 7))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
                     flag = flag + str(ChangeEffect(effect, 107))[1:4]
-                    print(flag)
+                    #print(flag)
                     row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP12':
@@ -1360,49 +1360,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             if KCLOp.wallvariant == "WALLOP1":
               row = layout.row()
               flag = flag + str(effect)[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP2":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 1))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP3":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 2))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP4":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 3))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP5":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 4))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP6":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 5))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP7":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 6))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP8":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 7))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP13':
@@ -1415,13 +1415,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             if KCLOp.invwallvariant == "INVWALLOP1":
               row = layout.row()
               flag = flag + str(effect)[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
             if KCLOp.invwallvariant == "INVWALLOP2":
               row = layout.row()
               flag = flag + str(ChangeEffect(effect, 1))[1:4]
-              print(flag)
+              #print(flag)
               row.operator("apply.apply_op")
 
         row = layout.row()
