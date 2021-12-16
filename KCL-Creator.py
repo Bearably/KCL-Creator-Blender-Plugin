@@ -34,7 +34,7 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OP16', "Half-Pipe Ramp", ""),
                 ('OP17', "Gravity Road", ""),
                 ('OP18', "Sound Trigger", ""),
-                ('OP19', "effectect Trigger", ""),
+                ('OP19', "Effect Trigger", ""),
                 ('OP20', "Half-Pipe Invisible Wall", "")
             ]
         )
@@ -221,6 +221,7 @@ class APPLY_OT_apply_op(Operator):
       if mat is None:
     # create material
           mat = bpy.data.materials.new(name=flag)
+          mat.diffuse_color = (random.uniform(0,1),random.uniform(0,1),random.uniform(0,1),1)
 
 # Assign it to object
       if ob.data.materials:
@@ -233,11 +234,13 @@ class APPLY_OT_apply_op(Operator):
     def execute(self, context):
         ob = context.active_object
         self.flagmat(flag, ob)
+        bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         return {'FINISHED'}
     
     def invoke(self, context, event):
         ob = context.active_object
         self.flagmat(flag, ob)
+        bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         return {'FINISHED'}
 
 class EXPORT_OT_flag_op(Operator):
@@ -295,14 +298,35 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                               
             if KCLOp.roadvariant == 'ROAD2':
                 row = layout.row()
-                flag = flag + str(ChangeEffect(effect, 1))[1:4]
-                print(flag)
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
                 
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+      
             if KCLOp.roadvariant == 'ROAD3':
                 row = layout.row()
-                flag = "_00_002"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD4':
                 row = layout.row()
@@ -340,6 +364,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         if KCLOp.enum == 'OP4':
             row = layout.row()
             row.prop(KCLOp, "offroadvariant") # Off-road variant
+            
+            if KCLOp.offroadvariant == 'OFFROADOP1':
+                row = layout.row()
+                variant = variant + 3
+                flag = "_" + str(variant)[1:3] + "_"
+                print(variant)
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(effect)[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP5':
             row = layout.row()
@@ -372,6 +415,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         if KCLOp.enum == 'OP12':
             row = layout.row()
             row.prop(KCLOp, "wallvariant") # Wall variant
+            
+            if KCLOp.wallvariant == 'WALLOP1':
+                row = layout.row()
+                print(variant)
+                flag = "_" + str(variant)[2:4] + "_"
+                print(variant)
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(effect)[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP13':
             row = layout.row()
