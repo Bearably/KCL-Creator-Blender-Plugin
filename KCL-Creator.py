@@ -6,6 +6,8 @@ ob = bpy.context.active_object
 flag = "mat"
 effect = 0
 variant = 0
+variantnum = 0
+hexconv = 156
 
         
 class DropDown(bpy.types.PropertyGroup):
@@ -156,7 +158,7 @@ class DropDown(bpy.types.PropertyGroup):
                 ('JUMPPADOP5', "Stage 5, Bouncy mushroom (Causes off-road glitch)", ""),
                 ('JUMPPADOP6', "Stage 4, used in Chain Chomp Wheel", ""),
                 ('JUMPPADOP7', "Stage 2, used in DS Yoshi Falls and Funky Stadium", ""),
-                ('JUMPPADOP6', "Stage 4, unused.", "")
+                ('JUMPPADOP8', "Stage 4, unused.", "")
             ]
         )
     # Solid Fall variant Enumerator
@@ -268,8 +270,12 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         global flag
         global variant
         global effect
+        global variantnum
+        global hexconv
+        variantnum = 0
         variant = 100
         effect = 1000
+        hexconv = 156
         flag = "_" + str(variant)[1:3] + "_"
         
         def ChangeEffect(effect, effectnum):
@@ -330,46 +336,360 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
             if KCLOp.roadvariant == 'ROAD4':
                 row = layout.row()
-                flag = "_00_003"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
 
             if KCLOp.roadvariant == 'ROAD5':
                 row = layout.row()
-                flag = "_00_004"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD6':
                 row = layout.row()
-                flag = "_00_005"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD7':
                 row = layout.row()
-                flag = "_00_006"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD8':
                 row = layout.row()
-                flag = "_00_007"
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "trickable")
         
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
         if KCLOp.enum == 'OP2':
             row = layout.row()
+            variantnum = 1
+            variant = hex(100 + hexconv + variantnum)[3:5]
             row.prop(KCLOp, "sliproad1variant") # Slippery Road 1 variant
+
+            if KCLOp.sliproad1variant == "SLIPROAD1OP1":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(effect)[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+            
+            if KCLOp.sliproad1variant == "SLIPROAD1OP2":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.sliproad1variant == "SLIPROAD1OP3":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.sliproad1variant == 'SLIPROAD1OP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.sliproad1variant == 'SLIPROAD1OP5':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.sliproad1variant == 'SLIPROAD1OP6':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.sliproad1variant == 'SLIPROAD1OP7':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.sliproad1variant == 'SLIPROAD1OP8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP3':
             row = layout.row()
+            variantnum = 2
+            variant = hex(100 + hexconv + variantnum)[3:5]
             row.prop(KCLOp, "weakoffroadvariant") # Weak Off-road variant
+
+            if KCLOp.weakoffroadvariant == "WEAKOFFROADOP1":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(effect)[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.weakoffroadvariant == "WEAKOFFROADOP2":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.weakoffroadvariant == "WEAKOFFROADOP3":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP5':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP6':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP7':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.weakoffroadvariant == 'WEAKOFFROADOP8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP4':
             row = layout.row()
+            variantnum = 3
+            variant = hex(100 + hexconv + variantnum)[3:5]
             row.prop(KCLOp, "offroadvariant") # Off-road variant
             
             if KCLOp.offroadvariant == 'OFFROADOP1':
                 row = layout.row()
-                variant = variant + 3
-                flag = "_" + str(variant)[1:3] + "_"
-                print(variant)
                 row.prop(KCLOp, "trickable")
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
@@ -383,44 +703,127 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                   flag = flag + str(ChangeEffect(effect, 100))[1:4]
                   print(flag)
                   row.operator("apply.apply_op")
+
+            if KCLOp.offroadvariant == "OFFROADOP2":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.offroadvariant == "OFFROADOP3":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.offroadvariant == 'OFFROADOP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.offroadvariant == 'OFFROADOP5':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.offroadvariant == 'OFFROADOP6':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.offroadvariant == 'OFFROADOP7':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.offroadvariant == 'OFFROADOP8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
 
         if KCLOp.enum == 'OP5':
             row = layout.row()
+            variantnum = 4
+            variant = hex(100 + hexconv + variantnum)[3:5]
             row.prop(KCLOp, "heavyoffroadvariant") # Heavy off-road variant
 
-        if KCLOp.enum == 'OP6':
-            row = layout.row()
-            row.prop(KCLOp, "sliproad2variant") # Slippery road 2 variant
-
-        if KCLOp.enum == 'OP7':
-            row = layout.row()
-            row.prop(KCLOp, "boostpanvariant") # Boost panel variant
-
-        if KCLOp.enum == 'OP8':
-            row = layout.row()
-            row.prop(KCLOp, "boostrampvariant") # Boost ramp variant
-
-        if KCLOp.enum == 'OP9':
-            row = layout.row()
-            row.prop(KCLOp, "jumppadvariant") # Jump Pad variant
-
-        if KCLOp.enum == 'OP10':
-            row = layout.row()
-            row.prop(KCLOp, "solidfallvariant") # Solid Fall variant
-
-        if KCLOp.enum == 'OP11':
-            row = layout.row()
-            row.prop(KCLOp, "movingroadvariant") # Moving Road variant
-
-        if KCLOp.enum == 'OP12':
-            row = layout.row()
-            row.prop(KCLOp, "wallvariant") # Wall variant
-            
-            if KCLOp.wallvariant == 'WALLOP1':
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP1':
                 row = layout.row()
-                print(variant)
-                flag = "_" + str(variant)[2:4] + "_"
-                print(variant)
                 row.prop(KCLOp, "trickable")
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
@@ -435,9 +838,579 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                   print(flag)
                   row.operator("apply.apply_op")
 
+            if KCLOp.heavyoffroadvariant == "HEAVYOFFROADOP2":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.heavyoffroadvariant == "HEAVYOFFROADOP3":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP5':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP6':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP7':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP6':
+            row = layout.row()
+            variantnum = 5
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "sliproad2variant") # Slippery road 2 variant
+
+            if KCLOp.sliproad2variant == "SLIPROAD2OP1":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(effect)[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+            
+            if KCLOp.sliproad2variant == "SLIPROAD2OP2":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.sliproad2variant == "SLIPROAD2OP3":
+              row = layout.row()
+              row.prop(KCLOp, "trickable")
+
+              if KCLOp.trickable == 'NOTTRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+                
+              if KCLOp.trickable == 'TRICKABLE':
+                  row = layout.row()
+                  flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                  print(flag)
+                  row.operator("apply.apply_op")
+
+            if KCLOp.sliproad2variant == 'SLIPROAD2OP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP7':
+            row = layout.row()
+            variantnum = 6
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "boostpanvariant") # Boost panel variant
+
+            if KCLOp.boostpanvariant == 'BOOSTPANOP1':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(effect)[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                              
+            if KCLOp.boostpanvariant == 'BOOSTPANOP2':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+      
+            if KCLOp.roadvariant == 'BOOSTPANOP3':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP8':
+            row = layout.row()
+            variantnum = 7
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "boostrampvariant") # Boost ramp variant
+
+            if KCLOp.boostrampvariant == "BOOSTRAMPOP1":
+              row = layout.row()
+              flag = flag + str(effect)[1:4]
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.boostrampvariant == "BOOSTRAMPOP2":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 1)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.boostrampvariant == "BOOSTRAMPOP3":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 2)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP9':
+            row = layout.row()
+            variantnum = 8
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "jumppadvariant") # Jump Pad variant
+
+            if KCLOp.jumppadvariant == "JUMPPADOP1":
+              row = layout.row()
+              flag = flag + str(effect)[1:4]
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP2":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 1)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP3":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 2)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP4":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 3)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP5":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 4)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP6":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 5)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP7":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 6)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.jumppadvariant == "JUMPPADOP8":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 7)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP10':
+            row = layout.row()
+            variantnum = 9
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "solidfallvariant") # Solid Fall variant
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP1":
+              row = layout.row()
+              flag = flag + str(effect)[1:4]
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP2":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 1)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP3":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 2)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP4":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 3)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP5":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 4)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP6":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 5)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP7":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 6)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.solidfallvariant == "SOLIDFALLOP8":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 7)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP11':
+            row = layout.row()
+            variantnum = 10
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "movingroadvariant") # Moving Road variant
+
+            if KCLOp.movingroadvariant == 'MOVINGROADOP1':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(effect)[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 100))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                              
+            if KCLOp.movingroadvariant == 'MOVINGROADOP2':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+      
+            if KCLOp.movingroadvariant == 'MOVINGROADOP3':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 2))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 102))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.movingroadvariant == 'MOVINGROADOP4':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 3))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 103))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.movingroadvariant == 'MOVINGROADOP5':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 4))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 104))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.movingroadvariant == 'MOVINGROADOP6':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 5))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 105))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.movingroadvariant == 'MOVINGROADOP7':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 6))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 106))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.movingroadvariant == 'MOVINGROADOP8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 7))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    flag = flag + str(ChangeEffect(effect, 107))[1:4]
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP12':
+            row = layout.row()
+            variantnum = 11
+            variant = hex(100 + hexconv + variantnum)[3:5]
+            row.prop(KCLOp, "wallvariant") # Wall variant
+
+            if KCLOp.wallvariant == "WALLOP1":
+              row = layout.row()
+              flag = flag + str(effect)[1:4]
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP2":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 1)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP3":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 2)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP4":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 3)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP5":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 4)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP6":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 5)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP7":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 6)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.wallvariant == "WALLOP8":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 7)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
+
         if KCLOp.enum == 'OP13':
             row = layout.row()
+            variantnum = 12
+            variant = hex(100 + hexconv + variantnum)[3:5]
             row.prop(KCLOp, "invwallvariant") # Invisible Wall variant
+
+            if KCLOp.invwallvariant == "INVWALLOP1":
+              row = layout.row()
+              flag = flag + str(effect)[1:4]
+              print(flag)
+              row.operator("apply.apply_op")
+
+            if KCLOp.invwallvariant == "INVWALLOP2":
+              row = layout.row()
+              flag = flag + str(ChangeEffect(effect, 1)[1:4])
+              print(flag)
+              row.operator("apply.apply_op")
 
         row = layout.row()
         row.label(text='Export As:',icon='BLENDER')
