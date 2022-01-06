@@ -1,18 +1,19 @@
 import bpy
 import random
 from bpy.types import Operator
+from bpy_extras.io_utils import ExportHelper
         
 ob = bpy.context.active_object
 flag = "mat"
 effect = 0
 variant = 0
 variantnum = 0
-hexconv = 156
+hexconv = 256
+effectnum = 0
+objectname = 'name'
 
         
 class DropDown(bpy.types.PropertyGroup):
-    
-    ScaleValue : bpy.props.FloatProperty(name= "FBX Scale", min=0, max=1000)
     
      # Defines the list of Flags and variants
     enum : bpy.props.EnumProperty(
@@ -232,28 +233,75 @@ class APPLY_OT_apply_op(Operator):
       else:
     # no slots
           ob.data.materials.append(mat)
+          
+    def rename(self, objectname, ob):
+        ob.name = objectname
+        ob.data.name = objectname
 
     def execute(self, context):
         ob = context.active_object
         self.flagmat(flag, ob)
+        self.rename(objectname, ob)
         bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         return {'FINISHED'}
     
     def invoke(self, context, event):
         ob = context.active_object
         self.flagmat(flag, ob)
+        self.rename(objectname, ob)
         bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)
         return {'FINISHED'}
 
-class EXPORT_OT_flag_op(Operator):
+class EXPORT_OT_flag_op(Operator, ExportHelper):
     bl_idname = 'export.flag_op'
     bl_label = 'Flag'
     bl_description = 'Export Flag File'
+    
+    filename_ext = ".flag"  # ExportHelper mixin class uses this
+    def execute(self, context):
+        filepath = self.filepath
+        # f = open(filepath, 'w')
+        # f.write(stuff)
+        # f.close()
+        return{'FINISHED'}
 
-class EXPORT_OT_kcl_op(Operator):
+class EXPORT_OT_kcl_op(Operator, ExportHelper):
     bl_idname = 'export.kcl_op'
     bl_label = 'KCL'
     bl_description = 'Export KCL File'
+    
+    ScaleValue : bpy.props.FloatProperty(name= "Scale", min=0, max=1000)
+    
+    filename_ext = ".kcl"  # ExportHelper mixin class uses this
+    def execute(self, context):
+        filepath = self.filepath
+        # f = open(filepath, 'w')
+        # f.write(stuff)
+        # f.close()
+        return{'FINISHED'}
+    
+#class EXPORT_PT_export_settings(bpy.types.Panel):
+#    bl_space_type = 'FILE_BROWSER'
+#    bl_region_type = 'TOOL_PROPS'
+#    bl_label = "Settings Panel"
+#    bl_options = {'DEFAULT_CLOSED'}
+#    
+#    @classmethod
+#    def poll(cls, context):
+#        sfile = context.space_data
+#        operator = sfile.active_operator
+#        return operator.bl_idname == "EXPORT_OT_kcl_op"
+#    
+#    def draw(self, context):
+#        layout = self.layout
+#        layout.use_property_split = True
+#        layout.use_property_decorate = False  # No animation.
+
+#        sfile = context.space_data
+#        operator = sfile.active_operator
+
+#        layout.prop(operator, 'ScaleValue')
+
 
 class KCL_PT_MainPanel(bpy.types.Panel):
     bl_label = "KCL Creator"
@@ -271,16 +319,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         global variant
         global effect
         global variantnum
+        global effectnum
         global hexconv
+        global objectname
         variantnum = 0
-        variant = 100
-        effect = 1000
-        hexconv = 156
-        flag = "_" + str(variant)[1:3] + "_"
+        variant = 0
+        effect = 0
+        effectnum = 0
+        hexconv = 256
+        flag = "_" + hex(variant)[2:4].zfill(2) + "_"
         
         def ChangeEffect(effect, effectnum):
             effect = effect + effectnum
             return effect              
+        
+        def EffectName(variant, variantnum):
+            variantnum = variantnum + variant << 5
+            variantnum = hex(variantnum)[2:6]
+            print(variantnum)
+            return variantnum
         
         if KCLOp.enum == 'OP1':
             row = layout.row()
@@ -292,14 +349,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    flag = flag + str(effect)[1:4]
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    print(objectname)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
-                    row = layout.row()
-                    flag = flag + str(ChangeEffect(effect, 100))[1:4]
-                    #print(flag)
+                    row = layout.row() 
+                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
+                    print(flag)
+                    print(objectname)
                     row.operator("apply.apply_op")
                               
             if KCLOp.roadvariant == 'ROAD2':
@@ -308,13 +370,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    flag = flag + str(ChangeEffect(effect, 1))[1:4]
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    print(objectname)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    flag = flag + str(ChangeEffect(effect, 101))[1:4]
+                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
+                    print(flag)
+                    print(objectname)
                     #print(flag)
                     row.operator("apply.apply_op")
       
@@ -416,9 +484,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP2':
             row = layout.row()
-            variantnum = 1
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 1
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "sliproad1variant") # Slippery Road 1 variant
 
             if KCLOp.sliproad1variant == "SLIPROAD1OP1":
@@ -551,9 +618,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP3':
             row = layout.row()
-            variantnum = 2
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 2
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "weakoffroadvariant") # Weak Off-road variant
 
             if KCLOp.weakoffroadvariant == "WEAKOFFROADOP1":
@@ -686,9 +752,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP4':
             row = layout.row()
-            variantnum = 3
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 3
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "offroadvariant") # Off-road variant
             
             if KCLOp.offroadvariant == 'OFFROADOP1':
@@ -821,9 +886,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP5':
             row = layout.row()
-            variantnum = 4
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 4
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "heavyoffroadvariant") # Heavy off-road variant
 
             if KCLOp.heavyoffroadvariant == 'HEAVYOFFROADOP1':
@@ -956,9 +1020,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP6':
             row = layout.row()
-            variantnum = 5
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 5
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "sliproad2variant") # Slippery road 2 variant
 
             if KCLOp.sliproad2variant == "SLIPROAD2OP1":
@@ -1027,9 +1090,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP7':
             row = layout.row()
-            variantnum = 6
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 6
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "boostpanvariant") # Boost panel variant
 
             if KCLOp.boostpanvariant == 'BOOSTPANOP1':
@@ -1082,9 +1144,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP8':
             row = layout.row()
-            variantnum = 7
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant)[1:3] + "_"
+            variant = 7
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "boostrampvariant") # Boost ramp variant
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP1":
@@ -1107,9 +1168,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP9':
             row = layout.row()
-            variantnum = 8
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 8
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "jumppadvariant") # Jump Pad variant
 
             if KCLOp.jumppadvariant == "JUMPPADOP1":
@@ -1162,9 +1222,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP10':
             row = layout.row()
-            variantnum = 9
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 9
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "solidfallvariant") # Solid Fall variant
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP1":
@@ -1217,9 +1276,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP11':
             row = layout.row()
-            variantnum = 10
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 10
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "movingroadvariant") # Moving Road variant
 
             if KCLOp.movingroadvariant == 'MOVINGROADOP1':
@@ -1352,9 +1410,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP12':
             row = layout.row()
-            variantnum = 11
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 11
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "wallvariant") # Wall variant
 
             if KCLOp.wallvariant == "WALLOP1":
@@ -1407,9 +1464,8 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
         if KCLOp.enum == 'OP13':
             row = layout.row()
-            variantnum = 12
-            variant = hex(100 + hexconv + variantnum)[3:5]
-            flag = "_" + str(variant) + "_"
+            variant = 12
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
             row.prop(KCLOp, "invwallvariant") # Invisible Wall variant
 
             if KCLOp.invwallvariant == "INVWALLOP1":
@@ -1427,7 +1483,6 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         row = layout.row()
         row.label(text='Export As:',icon='BLENDER')
         row = layout.row()
-        row.prop(KCLOp, "ScaleValue")
         row.operator("export.flag_op")
         row.operator("export.kcl_op")
 
