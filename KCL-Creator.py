@@ -49,6 +49,44 @@ class DropDown(bpy.types.PropertyGroup):
                 ('TRICKABLE', "Yes", "")
             ]
         )
+
+    slot : bpy.props.EnumProperty(
+        name= "Slot",
+        description= "",
+        items= [('LC', "Luigi Circuit", ""),
+                ('MMM', "Moo Moo Meadows", ""),
+                ('MG', "Mushroom Gorge", ""),
+                ('TF', "Toad's Factory", ""),
+                ('MC', "Mario Circuit", ""),
+                ('CM', "Coconut Mall", ""),
+                ('DKS', "DK Summit", ""),
+                ('WGM', "Wario's Gold Mine", ""),
+                ('DC', "Daisy Circuit", ""),
+                ('KC', "Koopa Cape", ""),
+                ('MT', "Maple Treeway", ""),
+                ('GV', "Grumble Volcano", ""),
+                ('DDR', "Dry Dry Ruins", ""),
+                ('MH', "Moonview Highway", ""),
+                ('BC', "Bowser's Castle", ""),
+                ('RR', "Rainbow Road", ""),
+                ('rPB', "GCN Peach Beach", ""),
+                ('rYF', "DS Yoshi Falls", ""),
+                ('rGV2', "SNES Ghost Valley 2", ""),
+                ('rMR', "N64 Mario Raceway", ""),
+                ('rSL', "N64 Sherbet Land", ""),
+                ('rSGB', "GBA Shy Guy Beach", ""),
+                ('rDS', "DS Delfino Square", ""),
+                ('rWS', "GCN Waluigi Stadium", ""),
+                ('rDH', "DS Desert Hills", ""),
+                ('rBC3', "GBA Bowser Castle 3", ""),
+                ('rDKJP', "N64 DK's Jungle Parkway", ""),
+                ('rMC', "GCN Mario Circuit", ""),
+                ('rMC3', "SNES Mario Circuit 3", ""),
+                ('rPG', "DS Peach Gardens", ""),
+                ('rDKM', "GCN DK Mountain", ""),
+                ('rBC', "N64 Bowser's Castle", "")
+            ]
+        )
         
     # Road variant Enumerator
     roadvariant : bpy.props.EnumProperty( 
@@ -225,6 +263,75 @@ class DropDown(bpy.types.PropertyGroup):
                 ('FALLOP7', "Quicksand", ""),
                 ('FALLOP8', "Short Fall", "")
                 
+            ]
+        )
+    # Cannon Activator variant enumerator
+    cannonvariant : bpy.props.EnumProperty(
+        name= "Variant",
+        description= "",
+        items= [('CANNONOP1', "To point 0", ""),
+                ('CANNONOP2', "To point 1", ""),
+                ('CANNONOP3', "To point 2", ""),
+                ('CANNONOP4', "To point 3 (unused)", ""),
+                ('CANNONOP5', "To point 4 (unused)", ""),
+                ('CANNONOP6', "To point 5 (unused)", ""),
+                ('CANNONOP7', "To point 6 (unused)", ""),
+                ('CANNONOP8', "To point 7 (unused)", "")
+                
+            ]
+        )
+    # Half-pipe variant enumerator
+    halfpipevariant : bpy.props.EnumProperty(
+        name= "Variant",
+        description= "",
+        items= [('HALFPIPEOP1', "To point 0", ""),
+                ('HALFPIPEOP2', "To point 1", "")
+            ]
+        )
+    # Gravity Road variant enumerator
+    gravityroadvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('GRAVITYROAD1', "Wood", ""),
+                ('GRAVITYROAD2', "Gravel, different impact SFX", ""),
+                ('GRAVITYROAD3', "Carpet", ""),
+                ('GRAVITYROAD4', "Dirt, no GFX", ""),
+                ('GRAVITYROAD5', "Sand, different impact and drift SFX, no GFX", ""),
+                ('GRAVITYROAD6', "Normal road, SFX on Rainbow Road", ""),
+                ('GRAVITYROAD7', "Normal road", ""),
+                ('GRAVITYROAD8', "Mud with GFX.", "")
+            ]
+        )
+    # Luigi Circuit variant enumerator
+    lcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('LCOP1', "No audience noise", ""),
+                ('LCOP2', "Soft audience noise", ""),
+                ('LCOP3', "Audience noise (race starts with this)", ""),
+                ('LCOP4', "Loud audience noise", "")
+            ]
+        )
+    # Mushroom Gorge variant enumerator
+    mgvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('MGOP1', "Deactivate all", ""),
+                ('MGOP2', "Enable cave SFX + echo", "")
+            ]
+        )
+    # Toad's Factory variant enumerator
+    tfvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('TFOP1', "Sounds Off", ""),
+                ('TFOP2', "Hydraulic press area", ""),
+                ('TFOP3', "Shipping dock area", ""),
+                ('TFOP4', "Moving belt area", ""),
+                ('TFOP5', "Steam Room", ""),
+                ('TFOP6', "Restart music at beginning", ""),
+                ('TFOP7', "Bulldozer area", ""),
+                ('TFOP8', "Audience area", "")
             ]
         )
 
@@ -1630,7 +1737,230 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             row = layout.row()
             variant = 13
             flag = "_" + hex(variant)[2:4].zfill(2) + "_"
-            row.prop(KCLOp, "
+            row.prop(KCLOp, "fallvariant")
+
+            if KCLOp.fallvariant == "FALLOP1":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP2":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP3":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP4":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP5":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP6":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP7":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.fallvariant == "FALLOP8":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP15':
+            row = layout.row()
+            variant = 14
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
+            row.prop(KCLOp, "cannonvariant")
+
+            if KCLOp.cannonvariant == "CANNONOP1":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP2":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP3":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP4":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP5":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP6":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP7":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+            if KCLOp.cannonvariant == "CANNONOP8":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP16':
+            row = layout.row()
+            variant = 15
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
+            row.prop(KCLOp, "slot")
+
+            if KCLOp.slot == "LC":
+                row = layout.row()
+                row.prop(KCLOp, "lcvariant")
+
+                if KCLOp.lcvariant == "LCOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.lcvariant == "LCOP2":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.lcvariant == "LCOP3":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.lcvariant == "LCOP4":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "MMM":
+                row = layout.row()
+            
+            if KCLOp.slot == "MG":
+                row = layout.row()
+                row.prop(KCLOp, "mgvariant")
+
+                if KCLOp.mgvariant == "MGOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mgvariant == "MGOP2":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "TF":
+                row = layout.row()
+                row.prop(KCLOp, "tfvariant")
+
+                if KCLOp.tfvariant == "TFOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP2":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP3":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP4":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP5":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP6":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP7":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "TFOP8":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
 
         row = layout.row()
         row.label(text='Export As:',icon='BLENDER')
