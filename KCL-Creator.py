@@ -2074,7 +2074,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "lcvariant")
 
                 if KCLOp.lcvariant == "LCOP1":
-                    objectname = flag + "F" + str(EffectName(, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2187,6 +2187,404 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 if KCLOp.tfvariant == "MCOP3":
                     objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "CM":
+                row = layout.row()
+                row.prop(KCLOp, "cmvariant")
+
+                if KCLOp.cmvariant == "CMOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.cmvariant == "CMOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.cmvariant == "CMOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.cmvariant == "CMOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.cmvariant == "CMOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.cmvariant == "CMOP6":
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "DKS":
+                row = layout.row()
+                row.prop(KCLOp, "dksvariant")
+
+                if KCLOp.dksvariant == "DKSOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.dksvariant == "DKSOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.dksvariant == "DKSOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.dksvariant == "DKSOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "WGM":
+                row = layout.row()
+                row.prop(KCLOp, "wgmvariant")
+
+                if KCLOp.wgmvariant == "WGMOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.wgmvariant == "WGMOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.wgmvariant == "WGMOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.wgmvariant == "WGMOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.wgmvariant == "WGMOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "DC":
+                row = layout.row()
+                row.prop(KCLOp, "dcvariant")
+
+                if KCLOp.dcvariant == "DCOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.dcvariant == "DCOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.dcvariant == "DCOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "KC":
+                row = layout.row()
+                row.prop(KCLOp, "kcvariant")
+
+                if KCLOp.kcvariant == "KCOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP6":
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.kcvariant == "KCOP7":
+                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "MT":
+                row = layout.row()
+                row.prop(KCLOp, "mtvariant")
+
+                if KCLOp.mtvariant == "MTOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mtvariant == "MTOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mtvariant == "MTOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mtvariant == "MTOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mtvariant == "MTOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "GV":
+                row = layout.row()
+                row.prop(KCLOp, "gvvariant")
+
+                if KCLOp.gvvariant == "GVOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.gvvariant == "GVOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.gvvariant == "GVOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.gvvariant == "GVOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "DDR":
+                row = layout.row()
+                row.prop(KCLOp, "ddrvariant")
+
+                if KCLOp.ddrvariant == "DDROP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.ddrvariant == "DDROP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.ddrvariant == "DDROP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.ddrvariant == "DDROP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "MH":
+                row = layout.row()
+                row.prop(KCLOp, "mhvariant")
+
+                if KCLOp.mhvariant == "MHOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mhvariant == "MHOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mhvariant == "MHOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mhvariant == "MHOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mhvariant == "MHOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.mhvariant == "MHOP6":
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "BC":
+                row = layout.row()
+                row.prop(KCLOp, "bcvariant")
+
+                if KCLOp.bcvariant == "BCOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP6":
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP7":
+                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.bcvariant == "BCOP8":
+                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "RR":
+                row = layout.row()
+                row.prop(KCLOp, "rrvariant")
+
+                if KCLOp.rrvariant == "RROP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP4":
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP5":
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP6":
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.rrvariant == "RROP7":
+                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
