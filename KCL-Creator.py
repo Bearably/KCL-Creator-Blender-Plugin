@@ -334,6 +334,212 @@ class DropDown(bpy.types.PropertyGroup):
                 ('TFOP8', "Audience area", "")
             ]
         )
+    # Mario Circuit variant enumerator
+    mcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('MCOP1', "Deactivates echo.", ""),
+                ('MCOP2', "Weak echo.", ""),
+                ('MCOP3', "Loud echo.", "")
+            ]
+        )
+    # Coconut Mall variant enumerator
+    cmvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('CMOP1', "Resets all sound triggers. Shopping mall ambience requires this to play", ""),
+                ('CMOP2', "Weak shopping mall ambience + disables echo", ""),
+                ('CMOP3', "Loud shopping mall ambience + strong echo", ""),
+                ('CMOP4', "Resets all sound triggers and prevents shopping mall ambience from playing until option 1 is hit again.", "")
+            ]
+        )
+    # DK Summit variant enumerator
+    dksvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('DKSOP1', "Deactivates cheering.", ""),
+                ('DKSOP2', "Weak cheering ambience.", ""),
+                ('DKSOP3', "Loud cheering ambience.", ""),
+                ('DKSOP4', "Loudest cheering ambience.", ""),
+                ('DKSOP5', "Enables cheering when going off half-pipe ramps.", "")
+            ]
+        )
+    # Wario's Gold Mine variant enumerator
+    wgmvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('WGMOP1', "Music change (outside)", ""),
+                ('WGMOP2', "Music change (cave) + gentle echo", ""),
+                ('WGMOP3', "Echo", ""),
+                ('WGMOP4', "Strong Echo", "")
+            ]
+        )
+    # Daisy Circuit variant enumerator
+    dcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('DCOP1', "Deactivate echo", ""),
+                ('DCOP2', "Weak echo", ""),
+                ('DCOP3', "Echo", "")
+            ]
+        )
+    # Koopa Cape variant enumerator
+    kcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('KCOP1', "Music change (normal)", ""),
+                ('KCOP2', "Music change (normal), echo.", ""),
+                ('KCOP3', "Stronger echo.", ""),
+                ('KCOP4', "Music change (underwtaer), water ambience enabled when entering from options 1, 6 or 7, disabled otherwise.", ""),
+                ('KCOP5', "Strongest echo, water ambience enabled.", ""),
+                ('KCOP6', "Music change (normal), strongest echo, water ambience enabled when entering from option 4.", ""),
+                ('KCOP7', "Music change (riverside)", "")
+            ]
+        )
+    # Maple Treeway variant enumerator
+    mtvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('MTOP1', "Deactivate echo and wind ambience.", ""),
+                ('MTOP2', "No effect.", ""),
+                ('MTOP3', "Weak echo.", ""),
+                ('MTOP4', "Loud echo.", ""),
+                ('MTOP5', "Enabled wind ambience, deactivates echo.", "")
+            ]
+        )
+    # Grumble Volcano variant enumerator
+    gvvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('GVOP1', "Deactivate echo", ""),
+                ('GVOP2', "Weak echo, toggles after two seconds.", ""),
+                ('GVOP3', "Loud echo, toggles after one second.", ""),
+                ('GVOP4', "Loud echo, toggles after two seconds.", "")
+            ]
+        )
+    # Dry Dry Ruins variant enumerator
+    ddrvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('DDROP1', "Music change (normal)", ""),
+                ('DDROP2', "Music change (indoors, where the bats come from the sides)", ""),
+                ('DDROP3', "Music change (indoors, where the half-pipes are)", ""),
+                ('DDROP4', "Music change (indoors, where the pokeys are)", "")
+            ]
+        )
+    # Moonview Highway variant enumerator
+    mhvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('MHOP1', "Deactivate city ambience, default music.", ""),
+                ('MHOP2', "Stage 2, Weak city ambience, adds flute to music.", ""),
+                ('MHOP3', "Stage 4, Louder city ambience, disable echo.", ""),
+                ('MHOP4', "Stage 5, Loudest city ambience, disable echo.", ""),
+                ('MHOP5', "Stage 3, Loud city ambience, enable echo.", ""),
+                ('MHOP6', "Stage 1, Weakest city ambience, enable echo.", "")
+            ]
+        )
+    # Bowser's Castle variant enumerator
+    bcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('BCOP1', "Disable one-time use sound trigger (like Bowser's howl)", ""),
+                ('BCOP2', "Bowser's howl + echo. Put option 8 at the end of a turn to be able to reuse Bowser's howl.", ""),
+                ('BCOP3', "Sound distortion + echo", ""),
+                ('BCOP4', "Deactivate sound distortion + echo", ""),
+                ('BCOP5', "Add drums + echo on music + koopaBall/koopaFigure SFX", ""),
+                ('BCOP6', "Deactivate koopaBall/koopaFigure SFX", ""),
+                ('BCOP7', "Add drums without echo", ""),
+                ('BCOP8', "Back to normal. Allow reuse for one-time use sound trigger.", "")
+            ]
+        )
+    # Rainbow Road variant enumerator
+    rrvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RROP1', "Deactivator", ""),
+                ('RROP2', "Gate sound 1 (add a deactivator before and after if you use only one gate)", ""),
+                ('RROP3', "Boost pad star ring sound 1", ""),
+                ('RROP4', "Boost pad star ring sound 2", ""),
+                ('RROP5', "Boost pad star ring sound 3", ""),
+                ('RROP6', "Boost pad star ring sound 4", ""),
+                ('RROP7', "Tunnel sound (add a deactivator to stop it)", "")
+            ]
+        )
+    # N64 Mario Raceway variant enumerator
+    rmrvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RMROP1', "Deactivates cheering.", ""),
+                ('RMROP2', "Loud cheering.", ""),
+                ('RMROP3', "Louder cheering.", ""),
+                ('RMROP4', "Weak cheering.", "")
+            ]
+        )
+    # N64 Sherbet Land variant enumerator
+    rslvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RSLOP1', "Deactivate all.", ""),
+                ('RSLOP2', "Cave echo.", ""),
+                ('RSLOP3', "Cave SFX.", "")
+            ]
+        )
+    # DS Delfino Square variant enumerator
+    rdsvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RDSOP1', "Unknown. In a position such that a player may collide with this trigger if they complete the dock shortcut.", ""),
+                ('RDSOP2', "Very, very distant whistles, cheers and chatter from spectators.", ""),
+                ('RDSOP3', "Very distant whistles, cheers and chatter from spectators.", ""),
+                ('RDSOP4', "Distant whistles, cheers and chatter from specators.", ""),
+                ('RDSOP5', "Whistles, cheers and chatter from spectators.", ""),
+                ('RDSOP6', "Single wid gust just before dock section.", ""),
+                ('RDSOP7', "No spectator ambience.", ""),
+                ('RDSOP8', "The same as last, used in between triggers of last type.", "")
+            ]
+        )
+    # N64 DK's Jungle Parkway variant enumerator
+    rdkjpvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RDKJPOP1', "No jungle ambience. Used near water sections.", ""),
+                ('RDKJPOP2', "Jungle ambience (bird squawks, insect hum, animal roar) Used as a buffer between types above and below.", ""),
+                ('RDKJPOP3', "Intense jungle ambience, used in areas of deep forest.", ""),
+                ('RDKJPOP4', "Cave ambience.", "")
+            ]
+        )
+    # GCN Mario Circuit variant enumerator
+    rmcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RMCOP1', "No echo", ""),
+                ('RMCOP2', "Weak echo", ""),
+                ('RMCOP3', "Loud echo", "")
+            ]
+        )
+    # GCN DK Mountain variant enumerator
+    rdkmvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RDKMOP1', "Deactivate all.", ""),
+                ('RDKMOP2', "Jungle SFX (animals)", ""),
+                ('RDKMOP3', "Water + wind SFX", "")
+            ]
+        )
+    # N64 Bowser's Castle variant enumerator
+    rbcvariant : bpy.props.EnumProperty( 
+        name= "Variant",
+        description= "",
+        items= [('RBCOP1', "Disable one-time use sound trigger (like Bowser's howl)", ""),
+                ('RBCOP2', "Turns lava SFX off + disables echo", ""),
+                ('RBCOP3', "Bowser's howl + echo. Put option 1 at the end of a turn to be able to reuse Bowser's howl.", ""),
+                ('RBCOP4', "Turns lava SFX off", ""),
+                ('RBCOP5', "Turns lava SFX off + echo", ""),
+                ('RBCOP6', "Echo", ""),
+                ('RBCOP7', "Strong echo", "")
+            ]
+        )
 
 class APPLY_OT_apply_op(Operator):
     bl_idname = 'apply.apply_op'
@@ -1868,25 +2074,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "lcvariant")
 
                 if KCLOp.lcvariant == "LCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP2":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP3":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP4":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -1905,7 +2111,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                     row.operator("apply.apply_op")
 
                 if KCLOp.mgvariant == "MGOP2":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -1921,44 +2127,66 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP2":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP3":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP4":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP5":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP6":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP7":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP8":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.slot == "MC":
+                row = layout.row()
+                row.prop(KCLOp, "mcvariant")
+
+                if KCLOp.tfvariant == "MCOP1":
+                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "MCOP2":
+                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.tfvariant == "MCOP3":
+                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
