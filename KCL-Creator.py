@@ -1,9 +1,20 @@
+bl_info = {
+    "name": "KCL Creator",
+    "author": "Bear & BillyNoodles",
+    "version": (1, 0),
+    "blender": (3, 0, 0),
+    "location": "3D View > Properties Panel > KCL Creator",
+    "description": "Helps create KCL files in Blender",
+    "warning": "",
+    "doc_url": "",
+    "category": "Export",
+}
+
 import bpy
 import random
 from bpy.types import Operator
 from bpy_extras.io_utils import ExportHelper
-        
-ob = bpy.context.active_object
+
 flag = "mat"
 effect = 0
 variant = 0
@@ -38,7 +49,6 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OP17', "Gravity Road", ""),
                 ('OP18', "Sound Trigger", ""),
                 ('OP19', "Effect Trigger", ""),
-                ('OP20', "Half-Pipe Invisible Wall", "")
             ]
         )
         
@@ -292,14 +302,14 @@ class DropDown(bpy.types.PropertyGroup):
     gravityroadvariant : bpy.props.EnumProperty( 
         name= "Variant",
         description= "",
-        items= [('GRAVITYROAD1', "Wood", ""),
-                ('GRAVITYROAD2', "Gravel, different impact SFX", ""),
-                ('GRAVITYROAD3', "Carpet", ""),
-                ('GRAVITYROAD4', "Dirt, no GFX", ""),
-                ('GRAVITYROAD5', "Sand, different impact and drift SFX, no GFX", ""),
-                ('GRAVITYROAD6', "Normal road, SFX on Rainbow Road", ""),
-                ('GRAVITYROAD7', "Normal road", ""),
-                ('GRAVITYROAD8', "Mud with GFX.", "")
+        items= [('GRAVITYROADOP1', "Wood", ""),
+                ('GRAVITYROADOP2', "Gravel, different impact SFX", ""),
+                ('GRAVITYROADOP3', "Carpet", ""),
+                ('GRAVITYROADOP4', "Dirt, no GFX", ""),
+                ('GRAVITYROADOP5', "Sand, different impact and drift SFX, no GFX", ""),
+                ('GRAVITYROADOP6', "Normal road, SFX on Rainbow Road", ""),
+                ('GRAVITYROADOP7', "Normal road", ""),
+                ('GRAVITYROADOP8', "Mud with GFX.", "")
             ]
         )
     # Luigi Circuit variant enumerator
@@ -553,16 +563,16 @@ class DropDown(bpy.types.PropertyGroup):
                 ('EFFECTOP7', "Smoke effect on the player when going through dark smoke (truckChimSmkW)", "")
             ]
         )
-    # Half-pipe Invisible Wall variant Enumerator
-    hpinvwallvariant : bpy.props.EnumProperty(
-        name= "Variant",
-        description= "",
-        items= [('HPINVWALLOP1', "Default", ""),
 
 class APPLY_OT_apply_op(Operator):
     bl_idname = 'apply.apply_op'
     bl_label = 'Apply'
     bl_description = 'Apply Flag'
+    
+    @classmethod 
+    def poll(cls, context):
+        ob = context.active_object
+        return ob and ob.type == 'MESH'
     
     def flagmat(self, flag, ob):
 # Get material
@@ -654,6 +664,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
     bl_idname = "KCL_PT_MainPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
+    bl_category = "KCL Creator"
     
     def draw(self, context):
         layout = self.layout
@@ -679,9 +690,9 @@ class KCL_PT_MainPanel(bpy.types.Panel):
             effect = effect + effectnum
             return effect              
         
-        def EffectName(variant, variantnum):
+        def EffectName(variant, variantnum, hexvariant):
             variantnum = variantnum + variant << 5
-            variantnum = hex(variantnum)[2:6]
+            variantnum = hex(variantnum + hexvariant)[2:6]
             print(variantnum)
             return variantnum
         
@@ -695,7 +706,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     #print(objectname)
@@ -703,7 +714,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row() 
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     #print(objectname)
@@ -715,7 +726,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     #print(objectname)
@@ -723,7 +734,7 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     #print(objectname)
@@ -735,14 +746,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -753,14 +764,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -771,14 +782,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -789,14 +800,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -807,14 +818,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -825,14 +836,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -849,14 +860,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -867,14 +878,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -885,14 +896,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -903,14 +914,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -921,14 +932,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -938,14 +949,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "trickable")
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -956,14 +967,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -974,14 +985,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -998,14 +1009,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1016,14 +1027,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1034,14 +1045,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1052,14 +1063,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1070,14 +1081,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1088,14 +1099,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1106,14 +1117,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1124,14 +1135,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1148,14 +1159,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1166,14 +1177,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1184,14 +1195,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1202,14 +1213,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1220,14 +1231,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1238,14 +1249,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1256,14 +1267,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1274,14 +1285,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1298,14 +1309,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1316,14 +1327,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1334,14 +1345,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1352,14 +1363,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1370,14 +1381,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1388,14 +1399,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1406,14 +1417,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1424,14 +1435,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1448,14 +1459,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1466,14 +1477,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1484,14 +1495,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1502,14 +1513,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1526,14 +1537,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1544,14 +1555,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1562,14 +1573,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1582,21 +1593,21 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.boostrampvariant == "BOOSTRAMPOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -1609,56 +1620,56 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.jumppadvariant == "JUMPPADOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.jumppadvariant == "JUMPPADOP8":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -1671,56 +1682,56 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.solidfallvariant == "SOLIDFALLOP8":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -1737,14 +1748,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1755,14 +1766,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1773,14 +1784,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1791,14 +1802,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1809,14 +1820,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1827,14 +1838,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1845,14 +1856,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1863,14 +1874,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(7, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -1883,56 +1894,56 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.wallvariant == "WALLOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.wallvariant == "WALLOP8":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -1945,14 +1956,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.invwallvariant == "INVWALLOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.invwallvariant == "INVWALLOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -1965,56 +1976,56 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.fallvariant == "FALLOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP8":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -2027,56 +2038,56 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.cannonvariant == "CANNONOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.cannonvariant == "CANNONOP8":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
@@ -2089,19 +2100,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.halfpipevariant == "HALFPIPEOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.halfpipevariant == "HALFPIPEOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
-        if KCLOp.enum == 'OP18':
+        if KCLOp.enum == 'OP17':
             row = layout.row()
             variant = 22
             flag = "_" + hex(variant)[2:4].zfill(2) + "_"
@@ -2113,14 +2124,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(0, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -2131,14 +2142,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(1, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -2149,14 +2160,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(2, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -2167,32 +2178,32 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(3, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
-            if KCLOp.gravityvariant == 'GRAVITYROADOP5':
+            if KCLOp.gravityroadvariant == 'GRAVITYROADOP5':
                 row = layout.row()
                 row.prop(KCLOp, "trickable")
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(4, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -2203,14 +2214,14 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(5, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
@@ -2221,19 +2232,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
                 if KCLOp.trickable == 'NOTTRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
                 
                 if KCLOp.trickable == 'TRICKABLE':
                     row = layout.row()
-                    objectname = flag + "F" + str(EffectName(6, 256)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
-        if KCLOp.enum == 'OP19':
+        if KCLOp.enum == 'OP18':
             row = layout.row()
             variant = 24
             flag = "_" + hex(variant)[2:4].zfill(2) + "_"
@@ -2244,25 +2255,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "lcvariant")
 
                 if KCLOp.lcvariant == "LCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.lcvariant == "LCOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2275,13 +2286,13 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "mgvariant")
 
                 if KCLOp.mgvariant == "MGOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mgvariant == "MGOP2":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2291,49 +2302,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "tfvariant")
 
                 if KCLOp.tfvariant == "TFOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "TFOP8":
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2343,19 +2354,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "mcvariant")
 
                 if KCLOp.tfvariant == "MCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "MCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.tfvariant == "MCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2365,37 +2376,37 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "cmvariant")
 
                 if KCLOp.cmvariant == "CMOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.cmvariant == "CMOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.cmvariant == "CMOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.cmvariant == "CMOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.cmvariant == "CMOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.cmvariant == "CMOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2405,25 +2416,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "dksvariant")
 
                 if KCLOp.dksvariant == "DKSOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.dksvariant == "DKSOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.dksvariant == "DKSOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.dksvariant == "DKSOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2433,31 +2444,31 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "wgmvariant")
 
                 if KCLOp.wgmvariant == "WGMOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.wgmvariant == "WGMOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.wgmvariant == "WGMOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.wgmvariant == "WGMOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.wgmvariant == "WGMOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2467,19 +2478,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "dcvariant")
 
                 if KCLOp.dcvariant == "DCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.dcvariant == "DCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.dcvariant == "DCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2489,43 +2500,43 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "kcvariant")
 
                 if KCLOp.kcvariant == "KCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.kcvariant == "KCOP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2535,31 +2546,31 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "mtvariant")
 
                 if KCLOp.mtvariant == "MTOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mtvariant == "MTOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mtvariant == "MTOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mtvariant == "MTOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mtvariant == "MTOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2569,25 +2580,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "gvvariant")
 
                 if KCLOp.gvvariant == "GVOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.gvvariant == "GVOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.gvvariant == "GVOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.gvvariant == "GVOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2597,25 +2608,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "ddrvariant")
 
                 if KCLOp.ddrvariant == "DDROP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.ddrvariant == "DDROP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.ddrvariant == "DDROP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.ddrvariant == "DDROP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2625,37 +2636,37 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "mhvariant")
 
                 if KCLOp.mhvariant == "MHOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mhvariant == "MHOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mhvariant == "MHOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mhvariant == "MHOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mhvariant == "MHOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.mhvariant == "MHOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2665,49 +2676,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "bcvariant")
 
                 if KCLOp.bcvariant == "BCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.bcvariant == "BCOP8":
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2717,43 +2728,43 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rrvariant")
 
                 if KCLOp.rrvariant == "RROP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rrvariant == "RROP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2772,19 +2783,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rmrvariant")
 
                 if KCLOp.rmrvariant == "RMROP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rmrvariant == "RMROP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rmrvariant == "RMROP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2797,49 +2808,49 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rdsvariant")
 
                 if KCLOp.rdsvariant == "RDSOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdsvariant == "RDSOP8":
-                    objectname = flag + "F" + str(EffectName(7, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2858,25 +2869,25 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rdkjpvariant")
 
                 if KCLOp.rdkjpvariant == "RDKJPOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdkjpvariant == "RDKJPOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdkjpvariant == "RDKJPOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdkjpvariant == "RDKJPOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2886,19 +2897,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rmcvariant")
 
                 if KCLOp.rmcvariant == "RMCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rmcvariant == "RMCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rmcvariant == "RMCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2914,19 +2925,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rdkmvariant")
 
                 if KCLOp.rdkmvariant == "RDKMOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdkmvariant == "RDKMOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rdkmvariant == "RDKMOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
@@ -2936,48 +2947,48 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row.prop(KCLOp, "rbcvariant")
 
                 if KCLOp.rbcvariant == "RBCOP1":
-                    objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP2":
-                    objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP3":
-                    objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP4":
-                    objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP5":
-                    objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP6":
-                    objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.rbcvariant == "RBCOP7":
-                    objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
                     print(flag)
                     row.operator("apply.apply_op")
 
-        if KCLOp.enum == 'OP20':
+        if KCLOp.enum == 'OP19':
             row = layout.row()
             variant = 26
             flag = "_" + hex(variant)[2:4].zfill(2) + "_"
@@ -2985,70 +2996,50 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.effecttriggervariant == "EFFECTOP1":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP4":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(3, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP5":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(4, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP6":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(5, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
-            if KCLOp.effectriggervariant == "EFFECTOP7":
+            if KCLOp.effecttriggervariant == "EFFECTOP7":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(6, 0)).zfill(4)
+                objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
-                #print(flag)
-                row.operator("apply.apply_op")
-
-        if KCLOp.enum == 'OP20':
-            row = layout.row()
-            variant = 28
-            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
-            row.prop(KCLOp, "hpinvwallvariant") # Half Pipe Invisible Wall variant
-
-            if KCLOp.hpinvwallvariant == "HPINVWALLOP1":
-                row = layout.row()
-                objectname = flag + "F" + str(EffectName(0, 0)).zfill(4)
-                flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
-                #print(flag)
-                row.operator("apply.apply_op")
-
-            if KCLOp.hpinvwallvariant == "HPINVWALLOP2":
-                row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0)).zfill(4)
-                flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
