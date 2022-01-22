@@ -10,6 +10,7 @@ bl_info = {
     "category": "Export",
 }
 
+import os
 import bpy
 import random
 from bpy.types import Operator
@@ -615,10 +616,13 @@ class EXPORT_OT_flag_op(Operator, ExportHelper):
     
     filename_ext = ".flag"  # ExportHelper mixin class uses this
     def execute(self, context):
-        filepath = self.filepath
-        # f = open(filepath, 'w')
-        # f.write(stuff)
-        # f.close()
+        obs = filter(lambda ob: ob.type == 'MESH', context.scene.collection.all_objects)
+        fp = self.filepath
+        
+        with open(fp, 'w') as f:   
+            for ob in obs:
+                f.write(ob.name + " = 0x" + ob.name[-4:] + "\n")
+        
         return{'FINISHED'}
 
 class EXPORT_OT_kcl_op(Operator, ExportHelper):
@@ -630,10 +634,24 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
     
     filename_ext = ".kcl"  # ExportHelper mixin class uses this
     def execute(self, context):
-        filepath = self.filepath
-        # f = open(filepath, 'w')
-        # f.write(stuff)
-        # f.close()
+        obs = filter(lambda ob: ob.type == 'MESH', context.scene.collection.all_objects)
+        fp = self.filepath
+        
+        with open(fp[:-4] + ".flag", 'w') as f:   
+            for ob in obs:
+                f.write(ob.name + " = 0x" + ob.name[-4:] + "\n")
+        
+        bpy.ops.export_scene.obj(
+            filepath=fp, 
+            group_by_object=True,
+            use_blen_objects=False,
+            use_normals=True,
+            use_triangles=True,
+            use_materials=False,
+            global_scale=self.ScaleValue)
+            
+        os.system("wkclt encode \"" + fp + "\" -o")
+                    
         return{'FINISHED'}
     
 #class EXPORT_PT_export_settings(bpy.types.Panel):
@@ -693,7 +711,6 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         def EffectName(variant, variantnum, hexvariant):
             variantnum = variantnum + variant << 5
             variantnum = hex(variantnum + hexvariant)[2:6]
-            print(variantnum)
             return variantnum
         
         if KCLOp.enum == 'OP1':
