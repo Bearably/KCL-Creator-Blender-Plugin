@@ -632,6 +632,18 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
     
     ScaleValue : bpy.props.FloatProperty(name= "Scale", min=0, max=1000)
     
+    KCLSizes = [("Medium", "Medium", ""),
+        ("Small", "Small", ""),
+        ("Chary", "Chary", "")]
+    KCLSize    : bpy.props.EnumProperty(name="Complexity", items=KCLSizes)
+    
+    DropUnused : bpy.props.BoolProperty(name="Drop Unused Tris")
+    DropInval  : bpy.props.BoolProperty(name="Drop Invalid Tris")
+    DropFixed  : bpy.props.BoolProperty(name="Drop Fixed Tris")
+    RmFacedown : bpy.props.BoolProperty(name="Remove Facedown Tris")
+    RmFaceup   : bpy.props.BoolProperty(name="Remove Faceup Walls")
+    ConvFaceup : bpy.props.BoolProperty(name="Convert Faceup Walls")
+    
     filename_ext = ".kcl"  # ExportHelper mixin class uses this
     def execute(self, context):
         obs = filter(lambda ob: ob.type == 'MESH', context.scene.collection.all_objects)
@@ -650,7 +662,16 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
             use_materials=False,
             global_scale=self.ScaleValue)
             
-        os.system("wkclt encode \"" + fp + "\" -o")
+        command = "wkclt encode \"" + fp + "\" --kcl="
+        command = command + ("DROPUNUSED," if self.DropUnused else "")
+        command = command + ("DROPINVALID," if self.DropUnused else "")
+        command = command + ("DROPFIXED," if self.DropFixed else "")
+        command = command + ("RMFACEDOWN," if self.RmFacedown else "")
+        command = command + ("RMFACEUP," if self.RmFaceup else "")
+        command = command + ("CONVFACEUP," if self.ConvFaceup else "")
+        command = command + self.KCLSize
+        
+        os.system(command)
                     
         return{'FINISHED'}
     
