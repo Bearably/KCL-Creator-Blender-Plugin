@@ -643,6 +643,7 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
     RmFacedown : bpy.props.BoolProperty(name="Remove Facedown Tris")
     RmFaceup   : bpy.props.BoolProperty(name="Remove Faceup Walls")
     ConvFaceup : bpy.props.BoolProperty(name="Convert Faceup Walls")
+    WeakWalls  : bpy.props.BoolProperty(name="Weak Walls")
     
     filename_ext = ".kcl"  # ExportHelper mixin class uses this
     def execute(self, context):
@@ -669,6 +670,7 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
         command = command + ("RMFACEDOWN," if self.RmFacedown else "")
         command = command + ("RMFACEUP," if self.RmFaceup else "")
         command = command + ("CONVFACEUP," if self.ConvFaceup else "")
+        command = command + ("WEAKWALLS," if self.WeakWalls else "")
         command = command + self.KCLSize
         
         os.system(command)
