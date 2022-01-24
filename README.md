@@ -6,7 +6,7 @@
 Blender 2.8+ plugin to aid in the creation of KCL files.
 
 ## Installation
-Go to `Edit > Preferences > Addons > Install` and either select the .zip file or the unzipped `KCL-Creator.py` file.
+Go to `Edit > Preferences > Addons > Install` and select the `KCL-Creator.py` file.
 
 ## Features
 * Apply KCL Flags to selected object
