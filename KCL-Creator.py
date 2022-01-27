@@ -23,6 +23,8 @@ variantnum = 0
 hexconv = 256
 effectnum = 0
 objectname = 'name'
+LowerUnits = 30
+InclAngle = 45
 
         
 class DropDown(bpy.types.PropertyGroup):
@@ -49,7 +51,7 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OP16', "Half-Pipe Ramp", ""),
                 ('OP17', "Gravity Road", ""),
                 ('OP18', "Sound Trigger", ""),
-                ('OP19', "Effect Trigger", ""),
+                ('OP19', "Effect Trigger", "")
             ]
         )
         
@@ -110,7 +112,15 @@ class DropDown(bpy.types.PropertyGroup):
                 ('ROAD5', "Wood", ""),
                 ('ROAD6', "Snow", ""),
                 ('ROAD7', "Metal Grate", ""),
-                ('ROAD8', "Normal, but the sound cuts off", "")
+                ('ROAD8', "Normal, but the sound cuts off", ""),
+                ('ROAD9', "Normal road, different sound", ""),
+                ('ROAD10', "Carpet", ""),
+                ('ROAD11', "Grass, gfx on GCN DK Mountain", ""),
+                ('ROAD12', "Normal road, used on green mushrooms", ""),
+                ('ROAD13', "Grass", ""),
+                ('ROAD14', "Glass road with SFX", ""),
+                ('ROAD15', "Dirt (unused)", ""),
+                ('ROAD16', "Normal road, SFX on Rainbow Road", "")
             ]
         )
     # Slippery Road 1 variant Enumerator
@@ -630,7 +640,7 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
     bl_label = 'KCL'
     bl_description = 'Export KCL File'
     
-    ScaleValue : bpy.props.FloatProperty(name= "Scale", min=0, max=1000)
+    ScaleValue : bpy.props.FloatProperty(name= "Scale", default=1, precision=2, min=0, max=1000)
     
     KCLSizes = [("Medium", "Medium", ""),
         ("Small", "Small", ""),
@@ -644,6 +654,7 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
     RmFaceup   : bpy.props.BoolProperty(name="Remove Faceup Walls")
     ConvFaceup : bpy.props.BoolProperty(name="Convert Faceup Walls")
     WeakWalls  : bpy.props.BoolProperty(name="Weak Walls")
+    LowerWalls  : bpy.props.BoolProperty(name="Lower Walls")
     
     filename_ext = ".kcl"  # ExportHelper mixin class uses this
     def execute(self, context):
@@ -663,6 +674,10 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
             use_materials=False,
             global_scale=self.ScaleValue)
             
+        if self.LowerWalls:
+            LowerUnits : bpy.props.FloatProperty(name="Units to Lower by", default=30,precision=2,min=20,max=50)
+            InclAngle : bpy.props.FloatProperty(name="Inclination Angle",default=45,precision=2,min=0,max=180)
+            
         command = "wkclt encode \"" + fp + "\" --kcl="
         command = command + ("DROPUNUSED," if self.DropUnused else "")
         command = command + ("DROPINVALID," if self.DropUnused else "")
@@ -671,6 +686,7 @@ class EXPORT_OT_kcl_op(Operator, ExportHelper):
         command = command + ("RMFACEUP," if self.RmFaceup else "")
         command = command + ("CONVFACEUP," if self.ConvFaceup else "")
         command = command + ("WEAKWALLS," if self.WeakWalls else "")
+        command = command + (self.KCLSize + " --kcl-script=lower-walls.txt --const lower=" + LowerUnits + ",degree=" + InclAngle if self.LowerWalls else "")
         command = command + self.KCLSize
         
         os.system(command)
@@ -871,6 +887,162 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                     row.operator("apply.apply_op")
                 
             if KCLOp.roadvariant == 'ROAD8':
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+        
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(7, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(7, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(7, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(7, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.roadvariant == 'ROAD9':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
+                    #print(flag)
+                    #print(objectname)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row() 
+                    objectname = flag + "F" + str(EffectName(0, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(0, 256))[2:5].zfill(3)
+                    #print(flag)
+                    #print(objectname)
+                    row.operator("apply.apply_op")
+                              
+            if KCLOp.roadvariant == 'ROAD10':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
+                    #print(flag)
+                    #print(objectname)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(1, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(1, 256))[2:5].zfill(3)
+                    #print(flag)
+                    #print(objectname)
+                    row.operator("apply.apply_op")
+      
+            if KCLOp.roadvariant == 'ROAD10':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+                
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(2, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.roadvariant == 'ROAD11':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(3, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(3, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(3, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+            if KCLOp.roadvariant == 'ROAD12':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(4, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(4, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(4, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.roadvariant == 'ROAD13':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(5, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(5, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(5, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.roadvariant == 'ROAD14':
+                variant = 23
+                row = layout.row()
+                row.prop(KCLOp, "trickable")
+
+                if KCLOp.trickable == 'NOTTRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+                if KCLOp.trickable == 'TRICKABLE':
+                    row = layout.row()
+                    objectname = flag + "F" + str(EffectName(6, 256, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(6, 256))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                
+            if KCLOp.roadvariant == 'ROAD15':
+                variant = 23
                 row = layout.row()
                 row.prop(KCLOp, "trickable")
         
