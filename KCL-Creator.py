@@ -574,6 +574,20 @@ class DropDown(bpy.types.PropertyGroup):
                 ('EFFECTOP7', "Smoke effect on the player when going through dark smoke (truckChimSmkW)", "")
             ]
         )
+    # Pocha number enumerator
+    pocha : bpy.props.EnumProperty(
+        name= "Pocha number",
+        description= "Reference this number in KMP Setting 1 of pocha object",
+        items= [('POCHA1', "1", ""),
+                ('POCHA2', "2", ""),
+                ('POCHA3', "3", ""),
+                ('POCHA4', "4", ""),
+                ('POCHA5', "5 - Leaf splash on Moonview Highway slot", ""),
+                ('POCHA6', "6", ""),
+                ('POCHA7', "7", ""),
+                ('POCHA8', "8", "")
+            ]
+        )
 
 class APPLY_OT_apply_op(Operator):
     bl_idname = 'apply.apply_op'
@@ -3222,10 +3236,53 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.effecttriggervariant == "EFFECTOP3":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
-                flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
-                #print(flag)
-                row.operator("apply.apply_op")
+                if KCLOp.pocha == "POCHA1":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 0))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                  
+                if KCLOp.pocha == "POCHA2":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 16))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA3":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 32))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA4":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 48))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA5":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 64))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op)
+
+                if KCLOp.pocha == "POCHA6":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 80))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA7":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 96))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA8":
+                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    flag = flag + hex(ChangeEffect(2, 112))[2:5].zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
 
             if KCLOp.effecttriggervariant == "EFFECTOP4":
                 row = layout.row()
