@@ -51,7 +51,8 @@ class DropDown(bpy.types.PropertyGroup):
                 ('OP16', "Half-Pipe Ramp", ""),
                 ('OP17', "Gravity Road", ""),
                 ('OP18', "Sound Trigger", ""),
-                ('OP19', "Effect Trigger", "")
+                ('OP19', "Effect Trigger", ""),
+                ('OP20', "Half-Pipe Invisible Wall", "")
             ]
         )
         
@@ -586,6 +587,13 @@ class DropDown(bpy.types.PropertyGroup):
                 ('POCHA6', "6", ""),
                 ('POCHA7', "7", ""),
                 ('POCHA8', "8", "")
+            ]
+        )
+    # Half Pipe Invisible Wall variant Enumerator
+    hpinvwallvariant : bpy.props.EnumProperty(
+        name= "Variant",
+        description= "Wall used only while being in air after a half-pipe jump",
+        items= [('HPINVWALL', "Default", "")
             ]
         )
 
@@ -3401,6 +3409,19 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                 row = layout.row()
                 objectname = flag + "F" + str(EffectName(6, 0, variant)).zfill(4)
                 flag = flag + hex(ChangeEffect(6, 0))[2:5].zfill(3)
+                #print(flag)
+                row.operator("apply.apply_op")
+
+        if KCLOp.enum == 'OP20':
+            row = layout.row()
+            variant = 28
+            flag = "_" + hex(variant)[2:4].zfill(2) + "_"
+            row.prop(KCLOp, "hpinvwallvariant") # Half Pipe Invisible Wall variant
+
+            if KCLOp.hpinvwallvariant == "HPINVWALL":
+                row = layout.row()
+                objectname = flag + "F" + str(EffectName(0, 0, variant)).zfill(4)
+                flag = flag + hex(ChangeEffect(0, 0))[2:5].zfill(3)
                 #print(flag)
                 row.operator("apply.apply_op")
 
