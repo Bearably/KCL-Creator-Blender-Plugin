@@ -743,6 +743,11 @@ class KCL_PT_MainPanel(bpy.types.Panel):
         hexconv = 256
         flag = "_" + hex(variant)[2:4].zfill(2) + "_"
         
+        def Pocha(variant, hexvariant):
+            variantnum = 8*variant + 1
+            variantnum = hex(variantnum)[2:6]
+            return variantnum
+        
         def ChangeEffect(effect, effectnum):
             effect = effect + effectnum
             return effect              
@@ -2203,10 +2208,71 @@ class KCL_PT_MainPanel(bpy.types.Panel):
 
             if KCLOp.fallvariant == "FALLOP2":
                 row = layout.row()
-                objectname = flag + "F" + str(EffectName(1, 0, variant)).zfill(4)
-                flag = flag + hex(ChangeEffect(1, 0))[2:5].zfill(3)
-                #print(flag)
-                row.operator("apply.apply_op")
+                row.prop(KCLOp, "pocha")
+                
+                if KCLOp.pocha == "POCHA1":
+                    row = layout.row()
+                    variantnum = Pocha(0, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+                  
+                if KCLOp.pocha == "POCHA2":
+                    row = layout.row()
+                    variantnum = Pocha(1, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA3":
+                    row = layout.row()
+                    variantnum = Pocha(2, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA4":
+                    row = layout.row()
+                    variantnum = Pocha(3, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA5":
+                    row = layout.row()
+                    variantnum = Pocha(4, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA6":
+                    row = layout.row()
+                    variantnum = Pocha(5, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA7":
+                    row = layout.row()
+                    variantnum = Pocha(6, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
+
+                if KCLOp.pocha == "POCHA8":
+                    row = layout.row()
+                    variantnum = Pocha(7, variant)
+                    objectname = flag + "F" + EffectName(int(variantnum), 0, variant).zfill(4)
+                    flag = flag + str(variantnum).zfill(3)
+                    #print(flag)
+                    row.operator("apply.apply_op")
 
             if KCLOp.fallvariant == "FALLOP3":
                 row = layout.row()
@@ -3343,43 +3409,43 @@ class KCL_PT_MainPanel(bpy.types.Panel):
                     row.operator("apply.apply_op")
                   
                 if KCLOp.pocha == "POCHA2":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 16, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 16))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA3":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 32, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 32))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA4":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 48, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 48))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA5":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 64, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 64))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA6":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 80, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 80))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA7":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 96, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 96))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
 
                 if KCLOp.pocha == "POCHA8":
-                    objectname = flag + "F" + str(EffectName(2, 0, variant)).zfill(4)
+                    objectname = flag + "F" + str(EffectName(2, 112, variant)).zfill(4)
                     flag = flag + hex(ChangeEffect(2, 112))[2:5].zfill(3)
                     #print(flag)
                     row.operator("apply.apply_op")
